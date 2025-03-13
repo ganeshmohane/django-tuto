@@ -55,13 +55,14 @@ def login(request):
 @csrf_exempt
 def predict_placement(request):
     data = json.loads(request.body)
+    print(data)
     cgpa = data.get('cgpa')	
     projects = data.get('projects')	
-    certifications = data.get('certs')
-    soft_skills = data.get('soft')	
-    linkedin_connections = data.get('linkedin')	
-    hackathons = data.get('hacks')	
-    interview_attempts = data.get('ints')
+    certifications = data.get('certifications')
+    soft_skills = data.get('soft_skills')	
+    linkedin_connections = data.get('linkedin_connections')	
+    hackathons = data.get('hackathons')	
+    interview_attempts = data.get('interview_attempts')
 
     model = joblib.load(os.path.join(os.path.dirname(__file__), "model.pkl"))
 

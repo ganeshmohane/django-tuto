@@ -21,7 +21,7 @@ if st.button("Predict Placement"):
         "hackathons": hackathons,
         "interview_attempts": interview_attempts
     }
-    response = requests.post("http://127.0.0.1:8000/api/predict_placement/", json=data)
-    result = response.json()["prediction"]
+    response = requests.post("http://127.0.0.1:8000/api/predict/", json=data)
+    result = response.json()["message"]
     
     st.success(f"Prediction: {result}")

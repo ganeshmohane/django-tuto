@@ -1,3 +1,7 @@
 django
 mysqlclient
+streamlit
+joblib
+scikit-learn
+streamlit
 

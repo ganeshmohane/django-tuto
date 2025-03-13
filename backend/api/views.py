@@ -2,6 +2,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import MySQLdb
 import json
+import joblib
+import numpy as np
+import os
 
 # fetch all students
 @csrf_exempt
@@ -28,12 +31,44 @@ def create_student(request):
     db.close()
     return JsonResponse({"message":"Create Succesfullly"})
 
+# login 
+@csrf_exempt
+def login(request):
+    data = json.loads(request.body)
+    username = data.get('username')
+    password = data.get('password')
+    print(username,password)
+    db = MySQLdb.connect(user='root',passwd='',db='django_db',host='localhost')
+    cursor = db.cursor()
+    cursor.execute("select password from students where username = %s", (username,))
+    db_passwd = cursor.fetchone()
+    print(db_passwd)
+    db.close()
+    if password != db_passwd[0]:
+        return JsonResponse({"message":"Password is incorrect"},status=401)
+
+    return JsonResponse({"message":"Logged In Successfully"})
 
 
 
+# model test
+@csrf_exempt
+def predict_placement(request):
+    data = json.loads(request.body)
+    cgpa = data.get('cgpa')	
+    projects = data.get('projects')	
+    certifications = data.get('certs')
+    soft_skills = data.get('soft')	
+    linkedin_connections = data.get('linkedin')	
+    hackathons = data.get('hacks')	
+    interview_attempts = data.get('ints')
 
-# # login 
-# @csrf_exempt
-# def login(request):
+    model = joblib.load(os.path.join(os.path.dirname(__file__), "model.pkl"))
+
+    features = np.array([[cgpa,projects, certifications, soft_skills, linkedin_connections, hackathons, interview_attempts]])
+    prediction = model.predict(features)[0]
+    print(prediction)
+    if int(prediction) == 1:
+        return JsonResponse({"message":"You will get placement"})
 
 

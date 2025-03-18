@@ -60,7 +60,6 @@ def predict_placement(request):
     projects = data.get('projects')	
     certifications = data.get('certifications')
     soft_skills = data.get('soft_skills')	
-    linkedin_connections = data.get('linkedin_connections')	
     hackathons = data.get('hackathons')	
     interview_attempts = data.get('interview_attempts')
 

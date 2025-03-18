@@ -65,10 +65,12 @@ def predict_placement(request):
 
     model = joblib.load(os.path.join(os.path.dirname(__file__), "model.pkl"))
 
-    features = np.array([[cgpa,projects, certifications, soft_skills, linkedin_connections, hackathons, interview_attempts]])
+    features = np.array([[cgpa,projects, certifications, soft_skills, hackathons, interview_attempts]])
     prediction = model.predict(features)[0]
     print(prediction)
     if int(prediction) == 1:
         return JsonResponse({"message":"You will get placement"})
+    else :
+        return JsonResponse({"message":"low chances"})
 
 
